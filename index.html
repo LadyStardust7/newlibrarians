@@ -15,15 +15,24 @@
       --border: rgba(255, 255, 255, 0.08);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
     
+    html, body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
     body {
       position: relative;
       background-color: var(--bg);
       color: var(--text-main);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       line-height: 1.6;
-      overflow-x: hidden;
       background-image: 
         linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
@@ -37,6 +46,7 @@
       left: 10%;
       width: 650px;
       height: 650px;
+      max-width: 90vw;
       background: radial-gradient(circle, rgba(204, 255, 0, 0.45) 0%, rgba(204, 255, 0, 0.1) 45%, transparent 70%);
       border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
       filter: blur(100px);
@@ -52,18 +62,18 @@
         opacity: 0.7;
       }
       50% {
-        transform: translate(140px, 80px) scale(1.25) rotate(180deg);
+        transform: translate(100px, 60px) scale(1.2) rotate(180deg);
         border-radius: 60% 40% 30% 70% / 50% 70% 30% 60%;
         opacity: 0.95;
       }
       100% {
-        transform: translate(-40px, 160px) scale(1.1) rotate(360deg);
+        transform: translate(-30px, 120px) scale(1.05) rotate(360deg);
         border-radius: 30% 70% 50% 50% / 60% 30% 70% 40%;
         opacity: 0.75;
       }
     }
 
-    /* Поднимаем шапку и контейнер над фоновым свечением */
+    /* Поднимаем элементы над фоновым свечением */
     header, .container, footer {
       position: relative;
       z-index: 2;
@@ -74,19 +84,19 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 25px 50px;
+      padding: 20px 50px;
       max-width: 1400px;
       margin: 0 auto;
       border-bottom: 1px solid var(--border);
     }
 
-    /* Бренд-зона с белой скругленной подложкой под логотип */
     .header-brand {
       display: flex;
       align-items: center;
       gap: 16px;
       text-decoration: none;
       color: inherit;
+      z-index: 1001;
     }
 
     .brand-logo-box {
@@ -123,7 +133,13 @@
       color: var(--accent);
     }
 
-    nav a { 
+    /* Навигация ПК */
+    nav.nav-desktop {
+      display: flex;
+      align-items: center;
+    }
+
+    nav.nav-desktop a { 
       color: var(--text-muted); 
       text-decoration: none; 
       margin-left: 30px; 
@@ -131,7 +147,77 @@
       font-weight: 500;
       transition: color 0.2s; 
     }
-    nav a:hover { color: var(--accent); }
+    nav.nav-desktop a:hover { color: var(--accent); }
+
+    /* Кнопка-гамбургер */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 28px;
+      height: 20px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 1001;
+      padding: 0;
+    }
+
+    .menu-toggle span {
+      width: 100%;
+      height: 3px;
+      background-color: var(--text-main);
+      border-radius: 2px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .menu-toggle.active span:nth-child(1) {
+      transform: translateY(8.5px) rotate(45deg);
+      background-color: var(--accent);
+    }
+    .menu-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .menu-toggle.active span:nth-child(3) {
+      transform: translateY(-8.5px) rotate(-45deg);
+      background-color: var(--accent);
+    }
+
+    /* Выпадающее мобильное меню */
+    .nav-mobile {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      height: 100vh;
+      background: rgba(10, 10, 12, 0.98);
+      backdrop-filter: blur(16px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      z-index: 1000;
+      transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav-mobile.active {
+      right: 0;
+    }
+
+    .nav-mobile a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 24px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+
+    .nav-mobile a:hover {
+      color: var(--accent);
+    }
 
     .container {
       max-width: 1400px;
@@ -192,10 +278,12 @@
       background: var(--card-bg);
       box-shadow: 0 10px 40px rgba(0,0,0,0.5);
     }
+
     .hero-media img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: block;
     }
 
     /* Секции */
@@ -225,7 +313,7 @@
     /* Сетка карточек */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 30px;
     }
 
@@ -244,7 +332,6 @@
       border-color: rgba(204, 255, 0, 0.3);
     }
 
-    /* Пропорции обложек */
     .card-img-wrap {
       width: 100%;
       overflow: hidden;
@@ -339,7 +426,7 @@
       margin: 0 auto;
       padding: 0 50px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 40px;
       margin-bottom: 40px;
     }
@@ -493,18 +580,86 @@
       box-shadow: none !important;
     }
 
-    /* Адаптив */
+    /* Адаптив под мобильные устройства */
     @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; gap: 40px; padding: 40px 0; }
-      header, .container, .footer-container, .footer-bottom { padding: 20px; }
-      .hero-title { font-size: 38px; }
-      .footer-bottom { flex-direction: column; align-items: flex-start; }
+      header {
+        padding: 16px 20px;
+      }
+
+      .logo {
+        font-size: 16px;
+      }
+
+      .brand-logo-box {
+        width: 40px;
+        height: 40px;
+      }
+
+      nav.nav-desktop {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+
+      .container {
+        padding: 0 20px;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 40px 0;
+      }
+
+      .hero-title {
+        font-size: 32px;
+        letter-spacing: -1px;
+      }
+
+      .hero-desc {
+        font-size: 16px;
+      }
+
+      section {
+        padding: 50px 0;
+      }
+
+      .section-title {
+        font-size: 26px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .footer-container {
+        padding: 0 20px;
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .footer-bottom {
+        padding: 20px 20px 0;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      #scrollToTopBtn {
+        bottom: 20px;
+        right: 20px;
+        width: 44px;
+        height: 44px;
+        font-size: 20px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Светящийся элемент вынесен прямо в body -->
+  <!-- Светящийся элемент -->
   <div class="glow-blob"></div>
 
   <!-- Шапка -->
@@ -515,11 +670,28 @@
       </div>
       <span class="logo">Новые библиотекари</span>
     </a>
-    <nav>
+
+    <!-- Навигация для ПК -->
+    <nav class="nav-desktop">
       <a href="#forums">Форумы</a>
       <a href="#webinars">Вебинары</a>
       <a href="https://t.me/newlibrarians" target="_blank">Канал</a>
       <a href="https://vk.ru/im/channels/-232564377" target="_blank">ВК</a>
+    </nav>
+
+    <!-- Кнопка-гамбургер -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Открыть меню">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- Мобильное выпадающее меню -->
+    <nav class="nav-mobile" id="navMobile">
+      <a href="#forums" onclick="closeMenu()">Форумы</a>
+      <a href="#webinars" onclick="closeMenu()">Вебинары</a>
+      <a href="https://t.me/newlibrarians" target="_blank" onclick="closeMenu()">Канал</a>
+      <a href="https://vk.ru/im/channels/-232564377" target="_blank" onclick="closeMenu()">ВК</a>
     </nav>
   </header>
 
@@ -540,8 +712,9 @@
         </div>
       </div>
 
+      <!-- Ваша родная картинка с Ноби и анонсом VIII форума -->
       <div class="hero-media">
-        <img src="forum-cover.jpg" alt="Новые библиотекари">
+        <img src="forum-cover.jpg" alt="VIII Форум Новые библиотекари">
       </div>
     </section>
 
@@ -794,6 +967,22 @@
   <button id="scrollToTopBtn" onclick="scrollToTop()" aria-label="Наверх">↑</button>
 
   <script>
+    // Управление мобильным гамбургер-меню
+    const menuToggle = document.getElementById('menuToggle');
+    const navMobile = document.getElementById('navMobile');
+
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('active');
+      navMobile.classList.toggle('active');
+      document.body.style.overflow = navMobile.classList.contains('active') ? 'hidden' : '';
+    });
+
+    function closeMenu() {
+      menuToggle.classList.remove('active');
+      navMobile.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
     // Переключение версии для слабовидящих
     function toggleAccessibility() {
       document.body.classList.toggle('bvi-active');

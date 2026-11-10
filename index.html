@@ -149,7 +149,7 @@
     }
     nav.nav-desktop a:hover { color: var(--accent); }
 
-    /* Кнопка-гамбургер */
+   /* Кнопка-гамбургер (фикс слой и позицию) */
     .menu-toggle {
       display: none;
       flex-direction: column;
@@ -159,8 +159,16 @@
       background: transparent;
       border: none;
       cursor: pointer;
-      z-index: 10001;
+      z-index: 100001; /* Гарантированно ВЫШЕ полноэкранного меню */
       padding: 0;
+      position: relative;
+    }
+
+    /* При открытом меню кнопка фиксируется в правом верхнем углу */
+    .menu-toggle.active {
+      position: fixed;
+      top: 24px;
+      right: 20px;
     }
 
     .menu-toggle span {
@@ -183,7 +191,7 @@
       background-color: var(--accent);
     }
 
-    /* Выпадающее мобильное меню (изолированный слой на уровне body) */
+    /* Выпадающее мобильное меню */
     .nav-mobile {
       position: fixed;
       top: 0;
@@ -196,7 +204,7 @@
       justify-content: center;
       align-items: center;
       gap: 30px;
-      z-index: 10000;
+      z-index: 100000;
       transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 

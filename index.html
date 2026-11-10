@@ -149,7 +149,7 @@
     }
     nav.nav-desktop a:hover { color: var(--accent); }
 
-   /* Кнопка-гамбургер */
+    /* Кнопка-гамбургер */
     .menu-toggle {
       display: none;
       flex-direction: column;
@@ -183,23 +183,21 @@
       background-color: var(--accent);
     }
 
-    /* Выпадающее мобильное меню — исправлено положение и фоновый слой */
+    /* Выпадающее мобильное меню (изолированный слой на уровне body) */
     .nav-mobile {
       position: fixed;
       top: 0;
       right: -100%;
-      width: 100%;
+      width: 100vw;
       height: 100vh;
-      background-color: #0a0a0c; /* Плотный непрозрачный фон */
+      background-color: #0a0a0c;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start; /* Начинаем сверху, а не центрируем вразнобой */
-      align-items: flex-start;
-      padding: 100px 40px 40px 40px; /* Отступ сверху, чтобы меню не наезжало на шапку и крестик */
-      gap: 24px;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
       z-index: 10000;
       transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      overflow-y: auto;
     }
 
     .nav-mobile.active {
@@ -209,14 +207,11 @@
     .nav-mobile a {
       color: var(--text-main);
       text-decoration: none;
-      font-size: 28px;
+      font-size: 24px;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 1px;
       transition: color 0.2s;
-      width: 100%;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--border); /* Аккуратные полосочки между пунктами */
     }
 
     .nav-mobile a:hover {
@@ -666,6 +661,14 @@
   <!-- Светящийся элемент -->
   <div class="glow-blob"></div>
 
+  <!-- Мобильное выпадающее меню вынесено сюда, прямо под body, чтобы не зависеть от шапки -->
+  <nav class="nav-mobile" id="navMobile">
+    <a href="#forums" onclick="closeMenu()">Форумы</a>
+    <a href="#webinars" onclick="closeMenu()">Вебинары</a>
+    <a href="https://t.me/newlibrarians" target="_blank" onclick="closeMenu()">Канал</a>
+    <a href="https://vk.ru/im/channels/-232564377" target="_blank" onclick="closeMenu()">ВК</a>
+  </nav>
+
   <!-- Шапка -->
   <header>
     <a href="#" class="header-brand">
@@ -689,14 +692,6 @@
       <span></span>
       <span></span>
     </button>
-
-    <!-- Мобильное выпадающее меню -->
-    <nav class="nav-mobile" id="navMobile">
-      <a href="#forums" onclick="closeMenu()">Форумы</a>
-      <a href="#webinars" onclick="closeMenu()">Вебинары</a>
-      <a href="https://t.me/newlibrarians" target="_blank" onclick="closeMenu()">Канал</a>
-      <a href="https://vk.ru/im/channels/-232564377" target="_blank" onclick="closeMenu()">ВК</a>
-    </nav>
   </header>
 
   <div class="container">
